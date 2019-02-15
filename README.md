@@ -6,11 +6,13 @@ modify the existing code as much as possible in order to do this, you'll also ne
 should have it's own state but don't feel you need to go as far as setting up remote state. As for a CIDR block for the 
 VPC use whatever you feel like, providing it's compliant with RFC-1918 and does not overlap with the dublin network.
 
-1. _I have parameterised the code in such a way that you can pass in one subnet cidr per AZ and it will create each subnet in a different AZ in the region - no hard-coding of AZs is required._
+..* _I have parameterised the code in such a way that you can pass in one subnet cidr per AZ and it will create each subnet in a different AZ in the region - no hard-coding of AZs is required._
 
 2. The EC2 instance running Nginx went down over the weekend and we had an outage, it's been decided that we need a solution 
 that is more resilient than just a single instance. Please implement a solution that you'd be confident would continue 
 to run in the event one instance goes down. 
+
+..* _I have implemented an ASG which will recreate the instance if it goes down, and which can tolerate the loss of up to n-1*public-subnets as specified by the user._
 
 3. We are looking to improve the security of our network we've decided we need a bastion server to avoid logging on 
 directly to our servers. Add a bastion server, the bastion should be the only route to SSH onto any server in the 

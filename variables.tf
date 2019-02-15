@@ -11,3 +11,12 @@ variable "public_subnets" {
   type        = "list"
   default     = []
 }
+
+variable "nginx_instance_size" {
+  default = "t2.small"
+}
+
+variable "nginx_lc_name" {
+    default = "nginx"
+  
+}
