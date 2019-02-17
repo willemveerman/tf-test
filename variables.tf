@@ -1,7 +1,7 @@
 variable "region" {}
 
 variable "profile" {
-    default = ""
+  default = ""
 }
 
 variable "vpc-cidr" {}
@@ -17,6 +17,11 @@ variable "nginx_instance_size" {
 }
 
 variable "nginx_lc_name" {
-    default = "nginx"
-  
+  default = "nginx"
 }
+
+variable "bastion_az" {
+  default = "a"
+}
+
+variable "ami" {}
