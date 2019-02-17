@@ -19,4 +19,10 @@
         insertafter: "        location / {"
         line: "                proxy_pass http://{{ target_service }}.{{ domain }}:{{ service_port }}/;"
         firstmatch: yes
+    
+    - name: Start Nginx
+      service:
+        name: nginx
+        enabled: yes
+
         

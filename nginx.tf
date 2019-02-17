@@ -2,7 +2,7 @@ module "nginx" {
   source          = "modules/asg"
   lc_name         = "${var.nginx_lc_name}"
   instance_size   = "${var.nginx_instance_size}"
-  ami_id          = "${var.ami}"
+  ami_id          = "${data.aws_ami.nginx.id}"
   subnet_ids      = "${aws_subnet.public.*.id}"
   vpc_id          = "${aws_vpc.vpc.id}"
   region          = "${var.region}"
@@ -64,15 +64,15 @@ resource "aws_security_group" "nginx-security-group" {
   }
 }
 
-# data "aws_instance" "nginx" {
-#   filter {
-#     name   = "tag:Name"
-#     values = ["${var.nginx_lc_name}"]
-#   }
-# }
+data "aws_instance" "nginx" {
+  filter {
+    name   = "tag:Name"
+    values = ["${var.nginx_lc_name}"]
+  }
+}
 
 
-# output "nginx_domain" {
-#   value = "${data.aws_instance.nginx.public_dns}"
-# }
+output "nginx_domain" {
+  value = "${data.aws_instance.nginx.public_ip}"
+}
 

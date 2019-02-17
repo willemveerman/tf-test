@@ -5,7 +5,7 @@ resource "aws_instance" "tomcat" {
   
   #subnet_id                   = "${data.aws_subnet.tomcat_subnet.id}"
   subnet_id                   = "${aws_subnet.private.1.id}"
-  associate_public_ip_address = true
+  associate_public_ip_address = false
 }
 
 data "aws_caller_identity" "current" {}

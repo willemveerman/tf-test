@@ -4,6 +4,8 @@ resource "aws_launch_configuration" "lc" {
   image_id                    = "${var.ami_id}"
   security_groups             = ["${var.security_groups}"]
   associate_public_ip_address = "${var.public_ip}"
+  user_data                   = "${var.user_data}"
+  key_name                    = "${var.key_name}"
 
   lifecycle {
     create_before_destroy = true

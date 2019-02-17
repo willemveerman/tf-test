@@ -25,3 +25,12 @@ variable tags {
 }
 
 variable "public_ip" {}
+
+variable "user_data" {
+  default = " "
+}
+
+variable "key_name" {
+  default = ""
+}
+

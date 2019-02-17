@@ -24,8 +24,8 @@ Vagrant.configure("2") do |config|
         config.vm.provision "ansible" do |ansible|
             ansible.playbook = "nginx.yml"
             ansible.extra_vars = {
-            version: "2.2.0",
-            service: "tomcat",
+            version: "1.12",
+            target_service: "tomcat",
             domain: "tf-test",
             service_port: "8080"
             }
