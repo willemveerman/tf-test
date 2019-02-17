@@ -1,0 +1,48 @@
+{
+  "variables": {
+    "profile": "wjav.admin",
+    "service": "nginx",
+    "version": "1.12",
+    "target_service": "tomcat",
+    "domain": "tf-test.com",
+    "service_port": "8080",
+    "region": "eu-west-1" 
+  },
+  "provisioners": [
+    {
+      "type": "ansible",
+      "playbook_file": "{{ user `service` }}.yml",
+      "extra_arguments": [ "--extra-vars", "target_service={{ user `target_service` }} service_port={{ user `service_port` }} domain={{ user `domain` }} version={{ user `version` }}" ]
+    }
+  ],
+  "builders": [
+    {
+      "type": "amazon-ebs",
+      "profile": "{{ user `profile` }}",
+      "region": "{{ user `region` }}",
+      "source_ami_filter": {
+        "filters": {
+          "virtualization-type": "hvm",
+          "root-device-type": "ebs",
+          "architecture": "x86_64",
+          "name": "amzn2-ami-hvm-*"
+        },
+        "owners": [
+          "137112412989"
+        ],
+        "most_recent": "true"
+      },
+      "associate_public_ip_address": true,
+      "instance_type": "t2.small",
+      "ssh_username": "ec2-user",
+      "ami_name": "{{ user `service` }}-{{ user `version` }}_{{timestamp}}",
+      "tags": {
+        "Name": "{{ user `service` }}-{{ user `version` }}_{{timestamp}}"
+      },      
+      "run_tags": {
+        "Name": "Packer Builder - {{ user `service` }}",
+        "Base_AMI_Name": "{{ .SourceAMIName }}"
+      }
+    }
+  ]
+}

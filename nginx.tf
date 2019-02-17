@@ -9,12 +9,6 @@ module "nginx" {
   security_groups = "${aws_security_group.nginx-security-group.id}"
   public_ip       = "true"
 
-  user_data = <<EOF
-#!/bin/sh
-yum install -y nginx
-service nginx start
-EOF
-
   desired_capacity = 1
   max_size         = 1
   min_size         = 0
@@ -26,6 +20,16 @@ EOF
     )
   )
   }"]
+}
+
+data "aws_ami" "nginx" {
+  most_recent = true
+  owners      = ["${data.aws_caller_identity.current.account_id}"]
+
+  filter {
+    name   = "name"
+    values = ["nginx-${var.nginx_version}_*"]
+  }
 }
 
 resource "aws_security_group" "nginx-security-group" {
@@ -60,13 +64,15 @@ resource "aws_security_group" "nginx-security-group" {
   }
 }
 
-data "aws_instance" "nginx" {
-  filter {
-    name   = "tag:Name"
-    values = ["${var.nginx_lc_name}"]
-  }
-}
+# data "aws_instance" "nginx" {
+#   filter {
+#     name   = "tag:Name"
+#     values = ["${var.nginx_lc_name}"]
+#   }
+# }
 
-output "nginx_domain" {
-  value = "${data.aws_instance.nginx.public_dns}"
-}
+
+# output "nginx_domain" {
+#   value = "${data.aws_instance.nginx.public_dns}"
+# }
+

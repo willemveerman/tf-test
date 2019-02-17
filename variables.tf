@@ -12,6 +12,12 @@ variable "public_subnets" {
   default     = []
 }
 
+variable "private_subnets" {
+  description = "List of private subnets in the VPC."
+  type        = "list"
+  default     = []
+}
+
 variable "nginx_instance_size" {
   default = "t2.small"
 }
@@ -20,8 +26,12 @@ variable "nginx_lc_name" {
   default = "nginx"
 }
 
-variable "bastion_az" {
-  default = "a"
+variable "ami" {}
+
+variable "tomcat_version" {
+  default = "2.2.0"
 }
 
-variable "ami" {}
+variable "nginx_version" {
+  default = "1.12"
+}

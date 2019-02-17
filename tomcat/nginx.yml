@@ -1,0 +1,22 @@
+---
+- hosts: all
+  become: true
+
+  tasks:
+    - name: upgrade all packages
+      yum:
+        name: '*'
+        state: latest
+        update_cache: yes
+
+    - name: install nginx
+      command: amazon-linux-extras install -y nginx{{ version }}
+    
+    - name: add proxy config
+      lineinfile:
+        path: /etc/nginx/nginx.conf
+        state: present
+        insertafter: "        location / {"
+        line: "                proxy_pass http://{{ target_service }}.{{ domain }}:{{ service_port }}/;"
+        firstmatch: yes
+        

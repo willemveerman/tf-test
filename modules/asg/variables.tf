@@ -1,22 +1,18 @@
-variable instance_size {
-}
+variable instance_size {}
 
-variable ami_id {
-}
+variable ami_id {}
 
 variable subnet_ids {
-    type = "list"
+  type = "list"
 }
 
-variable vpc_id {
-    
-}
+variable vpc_id {}
+
 variable region {}
 
 variable lc_name {}
 
-variable security_groups {
-}
+variable security_groups {}
 
 variable desired_capacity {}
 
@@ -25,13 +21,7 @@ variable max_size {}
 variable min_size {}
 
 variable tags {
-    type = "list"
+  type = "list"
 }
 
-variable "public_ip" {
-  
-}
-
-variable "user_data" {
-  
-}
+variable "public_ip" {}

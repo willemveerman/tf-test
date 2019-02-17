@@ -1,4 +1,7 @@
 .terraform/
 *.tfstate*
 .DS_Store
-
+*.retry
+.vagrant/
+*.tar
+*.pem

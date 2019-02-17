@@ -1,0 +1,55 @@
+---
+- hosts: all
+  become: true
+
+  vars:
+    service: tomcat
+    application: "{{ service }}.{{ version }}"
+
+  roles:
+  - role: roles/pip
+    pip_install_packages:
+    - name: docker
+
+  tasks:
+    - name: upgrade all packages
+      yum:
+        name: '*'
+        state: latest
+        update_cache: yes
+
+    - name: copy image
+      copy:
+        src: "{{ application }}.tar"
+        dest: /tmp/
+
+    - name: install docker
+      command: amazon-linux-extras install docker
+
+    - name: start docker service
+      service:
+        name: docker
+        state: started
+        enabled: yes
+
+    - name: Load image
+      docker_image:
+        load_path: /tmp/{{ application }}.tar
+        state: present
+        name: "{{ service }}"
+        tag: "{{ version }}"
+
+    - name: Launch container
+      docker_container:
+        name: "{{ application }}"
+        image: "{{ service }}:{{ version }}"
+        state: started
+        restart: yes
+        restart_policy: on-failure
+        restart_retries: 5
+        read_only: yes
+        tmpfs: /tmp
+        cap_drop:
+        - all
+        ports:
+         - "8080:8080"
